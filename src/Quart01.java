@@ -72,7 +72,7 @@ public class Quart01 {
 	
 	
 	
-	// 2. Longest Substring Without Repeating Characters 
+	// 3. Longest Substring Without Repeating Characters 
     public int lengthOfLongestSubstring(String s) {
 		if (s.length()==0) return 0;
 		HashMap<Character, Integer> map = new HashMap<Character, Integer>();
@@ -88,7 +88,48 @@ public class Quart01 {
 }
 
 	
-	
+	// 6. ZigZag Conversion
+	public static String convert(String s, int numRows){
+		if (numRows == 1){
+			return s;
+		} else {			
+			
+			StringBuilder ret = new StringBuilder("");
+			int wholeStep = (numRows - 1)*2;
+			
+			for (int i = 0; i < numRows; i++){
+
+				
+				if (i == 0 || i == numRows-1){
+					for (int index = i; index < s.length(); index+=wholeStep){
+						ret.append(s.substring(index,index+1));
+
+					}
+				}
+				
+				else {
+					boolean offsetStep = true;
+					int index = i;
+					
+					int firstHalfStep = (numRows - i - 1) * 2;
+					int secondHalfStep = wholeStep - firstHalfStep;
+					while (index < s.length()){
+						ret.append(s.substring(index, index+1));
+						
+						if (offsetStep){
+							 offsetStep = false;
+							 index+=firstHalfStep;
+						} else {
+							 offsetStep = true;
+							 index+=secondHalfStep;
+						}
+					}
+				}
+			}			
+			return ret.toString();
+		}		
+	}
+
 	
 	
 
