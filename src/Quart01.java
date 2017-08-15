@@ -132,5 +132,34 @@ public class Quart01 {
 
 	
 	
+	
+	// 7. ZigZag Conversion
+    public int reverse(int x) {
+    	if (x == 1){
+    		return x;
+    	}
+    	
+    	boolean isNeg = false;
+    	if (x < 0){
+    		isNeg = true;
+    		x*=-1;
+    	}
+    	int ret = 0;
+    	while (x>0){
+    		int curDig = x % 10;
+    		x = x/10;
+    		
+    		int newRet = (ret * 10) + curDig;
+    		// Check for integer overflow
+    		if ((newRet - curDig) /10 != ret){
+    			return 0;
+    		}
+    		ret = newRet;
+    	}
+    	if (isNeg) return -ret;
+    	else return ret;
+    }
+	
+	
 
 }
