@@ -160,6 +160,76 @@ public class Quart01 {
     	else return ret;
     }
 	
+    
+	// 12. Int to Roman
+    public String intToRoman(int num) {
+        int[] values = {1000,900,500,400,100,90,50,40,10,9,5,4,1};
+        String[] strs = {"M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"};
+        
+        StringBuilder sb = new StringBuilder();
+        
+        for(int i=0;i<values.length;i++) {
+            while(num >= values[i]) {
+                num -= values[i];
+                sb.append(strs[i]);
+            }
+        }
+        return sb.toString();
+    	
+        
+    }
+
+    
+    // 14. 	Longest Common Prefix
+
+    public static String longestCommonPrefix(String[]  strs){
+    
+	if (strs.length == 0){
+		return "";
+		
+	}
 	
+	
+	String shortest = strs[0]; 
+	
+	for (int i = 1; i < strs.length; i++){
+		if (shortest.length() <= strs[i].length()){
+		} else{
+			shortest = strs[i];
+		}
+	}
+
+	
+	
+	System.out.println(shortest);
+	StringBuilder fab = new StringBuilder(""); 
+	
+	boolean carryOn = true;
+	for (int i = 0; i < shortest.length() && carryOn; i++){
+		char rn = shortest.charAt(i);
+
+		for (int j = 0; j < strs.length; j++){
+			
+			if (rn == strs[j].charAt(i)){
+				
+			} else {
+				carryOn = false;
+			}
+		}
+		
+		if (carryOn)		fab.append(rn);
+		else;
+
+	}
+	
+	
+	return fab.toString();
+	
+	
+	
+
+
+}
+
 
 }
