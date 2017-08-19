@@ -1,4 +1,7 @@
 import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Stack;
 
 
 public class Quart01 {
@@ -62,18 +65,18 @@ public class Quart01 {
 			ListNode ret = new ListNode(value);
 			ret.next = addHelper(
 					(l1==null) ? null : l1.next,
-					(l2==null) ? null : l2.next,
-					nextIncrement);
+							(l2==null) ? null : l2.next,
+									nextIncrement);
 
 			return ret;
 		}
 
 	}
-	
-	
-	
+
+
+
 	// 3. Longest Substring Without Repeating Characters 
-    public int lengthOfLongestSubstring(String s) {
+	public int lengthOfLongestSubstring(String s) {
 		if (s.length()==0) return 0;
 		HashMap<Character, Integer> map = new HashMap<Character, Integer>();
 		int max=0;
@@ -85,43 +88,43 @@ public class Quart01 {
 			max = Math.max(max,i-j+1);
 		}
 		return max;
-}
+	}
 
-	
+
 	// 6. ZigZag Conversion
 	public static String convert(String s, int numRows){
 		if (numRows == 1){
 			return s;
 		} else {			
-			
+
 			StringBuilder ret = new StringBuilder("");
 			int wholeStep = (numRows - 1)*2;
-			
+
 			for (int i = 0; i < numRows; i++){
 
-				
+
 				if (i == 0 || i == numRows-1){
 					for (int index = i; index < s.length(); index+=wholeStep){
 						ret.append(s.substring(index,index+1));
 
 					}
 				}
-				
+
 				else {
 					boolean offsetStep = true;
 					int index = i;
-					
+
 					int firstHalfStep = (numRows - i - 1) * 2;
 					int secondHalfStep = wholeStep - firstHalfStep;
 					while (index < s.length()){
 						ret.append(s.substring(index, index+1));
-						
+
 						if (offsetStep){
-							 offsetStep = false;
-							 index+=firstHalfStep;
+							offsetStep = false;
+							index+=firstHalfStep;
 						} else {
-							 offsetStep = true;
-							 index+=secondHalfStep;
+							offsetStep = true;
+							index+=secondHalfStep;
 						}
 					}
 				}
@@ -130,106 +133,127 @@ public class Quart01 {
 		}		
 	}
 
-	
-	
-	
+
+
+
 	// 7. ZigZag Conversion
-    public int reverse(int x) {
-    	if (x == 1){
-    		return x;
-    	}
-    	
-    	boolean isNeg = false;
-    	if (x < 0){
-    		isNeg = true;
-    		x*=-1;
-    	}
-    	int ret = 0;
-    	while (x>0){
-    		int curDig = x % 10;
-    		x = x/10;
-    		
-    		int newRet = (ret * 10) + curDig;
-    		// Check for integer overflow
-    		if ((newRet - curDig) /10 != ret){
-    			return 0;
-    		}
-    		ret = newRet;
-    	}
-    	if (isNeg) return -ret;
-    	else return ret;
-    }
-	
-    
-	// 12. Int to Roman
-    public String intToRoman(int num) {
-        int[] values = {1000,900,500,400,100,90,50,40,10,9,5,4,1};
-        String[] strs = {"M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"};
-        
-        StringBuilder sb = new StringBuilder();
-        
-        for(int i=0;i<values.length;i++) {
-            while(num >= values[i]) {
-                num -= values[i];
-                sb.append(strs[i]);
-            }
-        }
-        return sb.toString();
-    	
-        
-    }
-
-    
-    // 14. 	Longest Common Prefix
-
-    public static String longestCommonPrefix(String[]  strs){
-    
-	if (strs.length == 0){
-		return "";
-		
-	}
-	
-	
-	String shortest = strs[0]; 
-	
-	for (int i = 1; i < strs.length; i++){
-		if (shortest.length() <= strs[i].length()){
-		} else{
-			shortest = strs[i];
+	public int reverse(int x) {
+		if (x == 1){
+			return x;
 		}
+
+		boolean isNeg = false;
+		if (x < 0){
+			isNeg = true;
+			x*=-1;
+		}
+		int ret = 0;
+		while (x>0){
+			int curDig = x % 10;
+			x = x/10;
+
+			int newRet = (ret * 10) + curDig;
+			// Check for integer overflow
+			if ((newRet - curDig) /10 != ret){
+				return 0;
+			}
+			ret = newRet;
+		}
+		if (isNeg) return -ret;
+		else return ret;
 	}
 
-	
-	
-	System.out.println(shortest);
-	StringBuilder fab = new StringBuilder(""); 
-	
-	boolean carryOn = true;
-	for (int i = 0; i < shortest.length() && carryOn; i++){
-		char rn = shortest.charAt(i);
 
-		for (int j = 0; j < strs.length; j++){
-			
-			if (rn == strs[j].charAt(i)){
-				
-			} else {
-				carryOn = false;
+	// 12. Int to Roman
+	public String intToRoman(int num) {
+		int[] values = {1000,900,500,400,100,90,50,40,10,9,5,4,1};
+		String[] strs = {"M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"};
+
+		StringBuilder sb = new StringBuilder();
+
+		for(int i=0;i<values.length;i++) {
+			while(num >= values[i]) {
+				num -= values[i];
+				sb.append(strs[i]);
 			}
 		}
-		
-		if (carryOn)		fab.append(rn);
-		else;
+		return sb.toString();
+
 
 	}
-	
-	
-	return fab.toString();
-	
-	
-	
 
 
+	// 14. 	Longest Common Prefix
+
+	public static String longestCommonPrefix(String[]  strs){
+
+		if (strs.length == 0){
+			return "";
+		}
+
+		String shortest = strs[0]; 
+
+		for (int i = 1; i < strs.length; i++){
+			if (shortest.length() <= strs[i].length()){
+			} else{
+				shortest = strs[i];
+			}
+		}
+
+		System.out.println(shortest);
+		StringBuilder fab = new StringBuilder(""); 
+
+		boolean carryOn = true;
+		for (int i = 0; i < shortest.length() && carryOn; i++){
+			char rn = shortest.charAt(i);
+
+			for (int j = 0; j < strs.length; j++){
+
+				if (rn == strs[j].charAt(i)){
+
+				} else {
+					carryOn = false;
+				}
+			}
+
+			if (carryOn)		fab.append(rn);
+			else;
+		}
+
+
+		return fab.toString();
+	}
+
+
+	// 20. parenthesis paring validation
+    public boolean isValid(String s) {
+    	Stack<Character> stack = new Stack<Character>();
+    	Hashtable<Character, Character> ht = new Hashtable<Character, Character>();
+    	ht.put((char)41,(char)40);
+    	ht.put((char)93,(char)91);
+    	ht.put((char)125,(char)123);
+
+    	
+		for (int i = 0; i< s.length(); i++){
+			if (s.charAt(i) == 40 || s.charAt(i) == 91 || s.charAt(i) == 123){
+				stack.push(s.charAt(i));
+
+			} else if(s.charAt(i) == 41 || s.charAt(i) == 93 || s.charAt(i) == 125){
+				if (!stack.isEmpty() && stack.peek() == ht.get(s.charAt(i))){
+					stack.pop();
+				} else {
+					return false;
+				}
+			}
+		}
+    	
+    	return stack.isEmpty();
+
+    }
+    
+    
+    
 }
 
 
-}
+
