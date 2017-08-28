@@ -1,7 +1,9 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Stack;
 
 
@@ -288,12 +290,11 @@ public class Quart01 {
 
 
 	// 23. Merge k Sorted Linked List
+
+	// Pleb Version. O(j*k^2) for j is the average number of node in lists, and k is the total number of lists
 	public ListNode mergeKLists(ListNode[] lists) {
 		ListNode returnHeadNode = null;
-
 		ListNode lastNode = null;
-
-
 
 		boolean listEmptied = false;
 
@@ -302,22 +303,21 @@ public class Quart01 {
 			int smallestIndex = findSmallestNodeIndex(lists);
 
 			if (smallestIndex == -1){
-				return null;
+				listEmptied= true;
 
 			} else {
-				
+
 				ListNode newNode = new ListNode(lists[smallestIndex].val);
-				
+
 				lists[smallestIndex] = lists[smallestIndex].next;
-				
+
 				if (returnHeadNode == null) {
 					returnHeadNode = newNode;
 					lastNode = returnHeadNode;
 				} else {
 					lastNode.next = newNode;
 					lastNode = newNode;
-				}
-				
+				}				
 			}
 		}
 
@@ -336,11 +336,89 @@ public class Quart01 {
 				smallestIndex = i;
 			} else {}
 		}
-
 		return smallestIndex;
 	}
 
 
+	// PRO WAY!!! Using Priority Queue
+	public ListNode mergeKLists2(List<ListNode> lists) {
+		if (lists==null||lists.size()==0) return null;
+
+		PriorityQueue<ListNode> queue= new PriorityQueue<ListNode>(lists.size(),new Comparator<ListNode>(){
+			@Override
+			public int compare(ListNode o1,ListNode o2){
+				if (o1.val<o2.val)
+					return -1;
+				else if (o1.val==o2.val)
+					return 0;
+				else 
+					return 1;
+			}
+		});
+
+		ListNode dummy = new ListNode(0);
+		ListNode tail=dummy;
+
+		for (ListNode node:lists)
+			if (node!=null)
+				queue.add(node);
+
+		while (!queue.isEmpty()){
+			tail.next=queue.poll();
+			tail=tail.next;
+
+			if (tail.next!=null)
+				queue.add(tail.next);
+		}
+		return dummy.next;
+	}	
+
+
+	
+	
+	// 10. RegEx implementation
+	public boolean isMatch(String s, String p){
+		if (p.length() == 0){
+			return false;
+
+		} else if (p.length() < 2){
+			if (s.equals(p) || p.charAt(0) == 46 )		return true; 
+			else					return false;
+			
+		} else {
+			if (p.charAt(1) == 42){
+				// Case if the next second character is "*"
+				int newStart = 0;
+				while (newStart < s.length() 
+						&& (p.charAt(0) == 46 || s.charAt(newStart) == p.charAt(0))){
+					
+					
+					newStart++;
+				}
+				
+				return isMatch(s.substring(newStart), p.substring(2));
+
+				
+			} else {
+				if (p.charAt(0) == 46 || p.charAt(0) == s.charAt(0)){
+					// Case if the next one char is "."
+					// or the next one character matches up with the target
+					return isMatch(s.substring(1), p.substring(1));
+				} else {
+					return false;
+				}
+			}
+		}
+	}
+
+
+	
+
+
+
+	public static void main(String[] args){
+
+	}
 }
 
 
