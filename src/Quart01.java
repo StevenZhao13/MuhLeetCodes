@@ -374,8 +374,8 @@ public class Quart01 {
 	}	
 
 
-	
-	
+
+
 	// 10. RegEx implementation
 	public boolean isMatch(String s, String p){
 		if (p.length() == 0){
@@ -384,21 +384,21 @@ public class Quart01 {
 		} else if (p.length() < 2){
 			if (s.equals(p) || p.charAt(0) == 46 )		return true; 
 			else					return false;
-			
+
 		} else {
 			if (p.charAt(1) == 42){
 				// Case if the next second character is "*"
 				int newStart = 0;
 				while (newStart < s.length() 
 						&& (p.charAt(0) == 46 || s.charAt(newStart) == p.charAt(0))){
-					
-					
+
+
 					newStart++;
 				}
-				
+
 				return isMatch(s.substring(newStart), p.substring(2));
 
-				
+
 			} else {
 				if (p.charAt(0) == 46 || p.charAt(0) == s.charAt(0)){
 					// Case if the next one char is "."
@@ -412,7 +412,68 @@ public class Quart01 {
 	}
 
 
+	// 31. Divide Two Integer
+	public static void nextPermutation(int[] A) {
+	    if(A == null || A.length <= 1) return;
+	    int i = A.length - 2;
+	    while(i >= 0 && A[i] >= A[i + 1]) i--; // Find 1st id i that breaks descending order
+	    if(i >= 0) {                           // If not entirely descending
+	        int j = A.length - 1;              // Start from the end
+	        while(A[j] <= A[i]) j--;           // Find rightmost first larger id j
+	        swap(A, i, j);                     // Switch i and j
+	    }
+	    reverse(A, i + 1, A.length - 1);       // Reverse the descending sequence
+	}
+
+
+	// method swaps the value of the place in the array, place specified by i and j
+	public static void swap(int[] A, int i, int j) {
+		int tmp = A[i];
+		A[i] = A[j];
+		A[j] = tmp;
+	}
+
+	// Method reverse the values in the array, range specified by i and j
+	public static void reverse(int[] A, int i, int j) {
+		while(i < j){ 
+			swap(A, i, j);
+			i++;
+			j--;
+		}
+	}
+
 	
+	// 32. Longest Valid Parenthesis
+    public int longestValidParentheses(String s) {
+        int left = 0, right = 0, maxlength = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '(') {
+                left++;
+            } else {
+                right++;
+            }
+            if (left == right) {
+                maxlength = Math.max(maxlength, 2 * right);
+            } else if (right >= left) {
+                left = right = 0;
+            }
+        }
+        left = right = 0;
+        for (int i = s.length() - 1; i >= 0; i--) {
+            if (s.charAt(i) == '(') {
+                left++;
+            } else {
+                right++;
+            }
+            if (left == right) {
+                maxlength = Math.max(maxlength, 2 * left);
+            } else if (left >= right) {
+                left = right = 0;
+            }
+        }
+        return maxlength;
+    }
+
 
 
 
