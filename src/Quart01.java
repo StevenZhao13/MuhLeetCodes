@@ -414,15 +414,15 @@ public class Quart01 {
 
 	// 31. Divide Two Integer
 	public static void nextPermutation(int[] A) {
-	    if(A == null || A.length <= 1) return;
-	    int i = A.length - 2;
-	    while(i >= 0 && A[i] >= A[i + 1]) i--; // Find 1st id i that breaks descending order
-	    if(i >= 0) {                           // If not entirely descending
-	        int j = A.length - 1;              // Start from the end
-	        while(A[j] <= A[i]) j--;           // Find rightmost first larger id j
-	        swap(A, i, j);                     // Switch i and j
-	    }
-	    reverse(A, i + 1, A.length - 1);       // Reverse the descending sequence
+		if(A == null || A.length <= 1) return;
+		int i = A.length - 2;
+		while(i >= 0 && A[i] >= A[i + 1]) i--; // Find 1st id i that breaks descending order
+		if(i >= 0) {                           // If not entirely descending
+			int j = A.length - 1;              // Start from the end
+			while(A[j] <= A[i]) j--;           // Find rightmost first larger id j
+			swap(A, i, j);                     // Switch i and j
+		}
+		reverse(A, i + 1, A.length - 1);       // Reverse the descending sequence
 	}
 
 
@@ -442,37 +442,68 @@ public class Quart01 {
 		}
 	}
 
-	
+
 	// 32. Longest Valid Parenthesis
-    public int longestValidParentheses(String s) {
-        int left = 0, right = 0, maxlength = 0;
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == '(') {
-                left++;
-            } else {
-                right++;
-            }
-            if (left == right) {
-                maxlength = Math.max(maxlength, 2 * right);
-            } else if (right >= left) {
-                left = right = 0;
-            }
-        }
-        left = right = 0;
-        for (int i = s.length() - 1; i >= 0; i--) {
-            if (s.charAt(i) == '(') {
-                left++;
-            } else {
-                right++;
-            }
-            if (left == right) {
-                maxlength = Math.max(maxlength, 2 * left);
-            } else if (left >= right) {
-                left = right = 0;
-            }
-        }
-        return maxlength;
-    }
+	public int longestValidParentheses(String s) {
+		int left = 0, right = 0, maxlength = 0;
+		for (int i = 0; i < s.length(); i++) {
+			if (s.charAt(i) == '(') {
+				left++;
+			} else {
+				right++;
+			}
+			if (left == right) {
+				maxlength = Math.max(maxlength, 2 * right);
+			} else if (right >= left) {
+				left = right = 0;
+			}
+		}
+		left = right = 0;
+		for (int i = s.length() - 1; i >= 0; i--) {
+			if (s.charAt(i) == '(') {
+				left++;
+			} else {
+				right++;
+			}
+			if (left == right) {
+				maxlength = Math.max(maxlength, 2 * left);
+			} else if (left >= right) {
+				left = right = 0;
+			}
+		}
+		return maxlength;
+	}
+
+	// 33. earch in Rotated Sorted Array
+	public int search(int[] nums, int target) {
+		if (nums.length == 0) return -1;
+		
+		// Solve by binary search
+		int low = 0, high = nums.length - 1;
+		int mid = (low + high)/2;
+		
+		while (low < high){
+			mid = (low + high)/2;
+			
+			if (nums[low] <= nums[mid]){	// If lower half is the ordered half 
+				if (nums[low] <= target && target <= nums[mid]){
+					high = mid;
+				} else {
+					low = mid + 1;
+				}
+			} else {
+				if (nums[mid+1] <= target && target <= nums[high]){
+					low = mid +1;
+				} else {
+					high = mid;
+				}
+			}
+		}
+		
+		
+		return nums[low] == target? low : -1;
+		
+	}
 
 
 
