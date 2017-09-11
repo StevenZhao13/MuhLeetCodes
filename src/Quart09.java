@@ -6,29 +6,29 @@ import java.util.HashMap;
 
 public class Quart09 {
 
-//	public boolean canCross(int[] stones) {
-//        if(stones[1] > 1) return false;
-//        if(stones.length == 2) return true;
-//        return helper(stones, 1, 1);
-//    }
-//    private boolean helper(int[] arr, int i, int step){
-//        boolean pass = false;
-//        if(i == arr.length-1) return true;
-//        for(int j = i+1; j < arr.length; j++){
-//            if(arr[j] <= arr[i] + step + 1 && arr[j] >= arr[i]+step-1){
-//                pass = pass || helper(arr, j, arr[j] - arr[i]);
-//            }
-//        }
-//        return pass;
-//    }
-//
-	
+	//	public boolean canCross(int[] stones) {
+	//        if(stones[1] > 1) return false;
+	//        if(stones.length == 2) return true;
+	//        return helper(stones, 1, 1);
+	//    }
+	//    private boolean helper(int[] arr, int i, int step){
+	//        boolean pass = false;
+	//        if(i == arr.length-1) return true;
+	//        for(int j = i+1; j < arr.length; j++){
+	//            if(arr[j] <= arr[i] + step + 1 && arr[j] >= arr[i]+step-1){
+	//                pass = pass || helper(arr, j, arr[j] - arr[i]);
+	//            }
+	//        }
+	//        return pass;
+	//    }
+	//
+
 	// 403. Frog Jump
 	public static boolean canCross(int[] stones) {
-		
-        if(stones[1] > 1) return false;
-        if(stones.length == 2) return true;
-        
+
+		if(stones[1] > 1) return false;
+		if(stones.length == 2) return true;
+
 		// Cook up the hash first
 		HashMap<Integer, Integer> hash = new HashMap<Integer, Integer>();
 
@@ -40,7 +40,7 @@ public class Quart09 {
 
 	public static boolean toNextStone(int[] stones, int curStoneIndex, int lastJumpDist, HashMap<Integer, Integer> hash){
 
-//		System.out.println("Attempting to jump from " + stones[curStoneIndex] + " to somewhere " + lastJumpDist + " away");
+		//		System.out.println("Attempting to jump from " + stones[curStoneIndex] + " to somewhere " + lastJumpDist + " away");
 
 		if (curStoneIndex == stones.length - 1){
 			return true;
@@ -65,19 +65,48 @@ public class Quart09 {
 	}
 
 
-	private static class Foo{
-		int i;
-		Foo(){}
+	// 413. Arithmetic Slices
+	public static int numberOfArithmeticSlices(int[] nums){
+		
+		int sum = 0;
+		int lengthCounter = 2;
+		
+		int curGap = -1;
+		for (int i = 2; i < nums.length; i++){
+
+			if (nums[i] - nums[i-1] == nums[i-1] - nums[i-2]){
+				
+				lengthCounter ++;
+				
+			} else {
+				if (lengthCounter >= 3){
+					sum += getPossiblePick(lengthCounter);
+				}
+				lengthCounter = 2;
+			}
+			
+		}
+		
+		if (lengthCounter >= 3){
+			sum += getPossiblePick(lengthCounter);
+		}
+		
+		return sum;
 	}
 	
+	
+	public static int getPossiblePick(int i){
+        return (i-1) * (i-2) / 2;		
+	}
+
+
+
+
+
 	public static void main(String[] args){
-		Foo a = new Foo(); 
-		Foo b = new Foo(); 
-		Foo c = a;
-
-		System.out.println("someString" == "someString" );
-		System.out.println(a.equals(b));
-
-		System.out.println(a.equals(b));
+		
+		int[] nums= {1,2,3,4};
+		System.out.println(numberOfArithmeticSlices(nums));
+ 
 	}
 }
