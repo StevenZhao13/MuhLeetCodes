@@ -67,75 +67,99 @@ public class Quart09 {
 
 	// 413. Arithmetic Slices
 	public static int numberOfArithmeticSlices(int[] nums){
-		
+
 		int sum = 0;
 		int lengthCounter = 2;
-		
+
 		int curGap = -1;
 		for (int i = 2; i < nums.length; i++){
 
 			if (nums[i] - nums[i-1] == nums[i-1] - nums[i-2]){
-				
+
 				lengthCounter ++;
-				
+
 			} else {
 				if (lengthCounter >= 3){
 					sum += getPossiblePick(lengthCounter);
 				}
 				lengthCounter = 2;
 			}
-			
+
 		}
-		
+
 		if (lengthCounter >= 3){
 			sum += getPossiblePick(lengthCounter);
 		}
-		
+
 		return sum;
 	}
-	
-	
+
+
 	public static int getPossiblePick(int i){
-        return (i-1) * (i-2) / 2;		
+		return (i-1) * (i-2) / 2;		
 	}
 
 
 
-	
+
 	// 416. Partition Equal Subset Sum
-    public boolean canPartition(int[] nums) {
-        // check edge case
-        if (nums == null || nums.length == 0) {
-            return true;
-        }
-        // preprocess
-        int volumn = 0;
-        for (int num : nums) {
-            volumn += num;
-        }
-        if (volumn % 2 != 0) {
-            return false;
-        }
-        volumn /= 2;
-        // dp def
-        boolean[] dp = new boolean[volumn + 1];
-        // dp init
-        dp[0] = true;
-        // dp transition
-        for (int i = 1; i <= nums.length; i++) {
-            for (int j = volumn; j >= nums[i-1]; j--) {
-                dp[j] = dp[j] || dp[j - nums[i-1]];
-            }
-        }
-        return dp[volumn];
-    }
+	public boolean canPartition(int[] nums) {
+		// check edge case
+		if (nums == null || nums.length == 0) {
+			return true;
+		}
+		// preprocess
+		int volumn = 0;
+		for (int num : nums) {
+			volumn += num;
+		}
+		if (volumn % 2 != 0) {
+			return false;
+		}
+		volumn /= 2;
+		// dp def
+		boolean[] dp = new boolean[volumn + 1];
+		// dp init
+		dp[0] = true;
+		// dp transition
+		for (int i = 1; i <= nums.length; i++) {
+			for (int j = volumn; j >= nums[i-1]; j--) {
+				dp[j] = dp[j] || dp[j - nums[i-1]];
+			}
+		}
+		return dp[volumn];
+	}
+
+
+
+	// 419. Battleship in a Board
+	public int countBattleships(char[][] board) {
+		if (board.length==0) return 0; 
+		
+		int counter = 0;
+		
+		for (int i = 0; i < board.length; i++){
+			for (int j = 0; j < board[0].length; j++){
+				if (board[i][j] == 'X'){
+					if (		(i > 0 && board[i-1][j] == 'X')
+							|| 	(j > 0 && board[i][j-1] == 'X')
+							){
+					} else {
+						counter++;
+					}
+				} else {}
+			}
+		}
+		
+		return counter;
+	}
 
 
 
 	public static void main(String[] args){
-		
+
 		int[] nums= {1,2,3,4};
 		System.out.println(numberOfArithmeticSlices(nums));
- 
+
 	}
 }
